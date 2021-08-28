@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BLOG_SEMINARIOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CATEGORIAS">
+          <Key>
+            <PropertyRef Name="ID_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_CATEGORIA" Type="varchar" MaxLength="125" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'BLOG_SEMINARIO.dbo.IMAGEN_POST' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="IMAGEN_POST">
+          <Key>
+            <PropertyRef Name="ID_IMAGEN" />
+            <PropertyRef Name="LINK_IMAGEN" />
+          </Key>
+          <Property Name="ID_IMAGEN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_POST" Type="int" />
+          <Property Name="LINK_IMAGEN" Type="varchar" MaxLength="350" Nullable="false" />
+        </EntityType>
+        <EntityType Name="POST">
+          <Key>
+            <PropertyRef Name="ID_POST" />
+          </Key>
+          <Property Name="ID_POST" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TITULO" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="NOTA_POST" Type="varchar(max)" />
+          <Property Name="STATUS_POST" Type="bit" />
+          <Property Name="CATEGORIA" Type="int" />
+          <Property Name="SUBCATEGORIA" Type="int" />
+        </EntityType>
+        <EntityType Name="SUB_CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID_SUB_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="int" />
+          <Property Name="ID_SUB_CATEGORIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_CATEGORIA" Type="varchar" MaxLength="125" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VINCULO_POST">
+          <Key>
+            <PropertyRef Name="ID_VINCULO" />
+            <PropertyRef Name="ID_POST" />
+          </Key>
+          <Property Name="ID_VINCULO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_POST" Type="int" Nullable="false" />
+          <Property Name="ENLACE" Type="varchar" MaxLength="750" Nullable="false" />
+          <Property Name="DESCRIPCION_BOTON_ENLACE" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__IMAGEN_PO__ID_PO__2F10007B">
+          <End Role="POST" Type="Self.POST" Multiplicity="0..1" />
+          <End Role="IMAGEN_POST" Type="Self.IMAGEN_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POST">
+              <PropertyRef Name="ID_POST" />
+            </Principal>
+            <Dependent Role="IMAGEN_POST">
+              <PropertyRef Name="ID_POST" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POST__CATEGORIA__29572725">
+          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="0..1" />
+          <End Role="POST" Type="Self.POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAS">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="POST">
+              <PropertyRef Name="CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POST__SUBCATEGOR__2A4B4B5E">
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="0..1" />
+          <End Role="POST" Type="Self.POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_CATEGORIA">
+              <PropertyRef Name="ID_SUB_CATEGORIA" />
+            </Principal>
+            <Dependent Role="POST">
+              <PropertyRef Name="SUBCATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SUB_CATEG__ID_CA__267ABA7A">
+          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="0..1" />
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAS">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="SUB_CATEGORIA">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VINCULO_P__ID_PO__2D27B809">
+          <End Role="POST" Type="Self.POST" Multiplicity="1" />
+          <End Role="VINCULO_POST" Type="Self.VINCULO_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POST">
+              <PropertyRef Name="ID_POST" />
+            </Principal>
+            <Dependent Role="VINCULO_POST">
+              <PropertyRef Name="ID_POST" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BLOG_SEMINARIOModelStoreContainer">
+          <EntitySet Name="CATEGORIAS" EntityType="Self.CATEGORIAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="POST" EntityType="Self.POST" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUB_CATEGORIA" EntityType="Self.SUB_CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VINCULO_POST" EntityType="Self.VINCULO_POST" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IMAGEN_POST" EntityType="Self.IMAGEN_POST" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [IMAGEN_POST].[ID_IMAGEN] AS [ID_IMAGEN], 
+    [IMAGEN_POST].[ID_POST] AS [ID_POST], 
+    [IMAGEN_POST].[LINK_IMAGEN] AS [LINK_IMAGEN]
+    FROM [dbo].[IMAGEN_POST] AS [IMAGEN_POST]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__IMAGEN_PO__ID_PO__2F10007B" Association="Self.FK__IMAGEN_PO__ID_PO__2F10007B">
+            <End Role="POST" EntitySet="POST" />
+            <End Role="IMAGEN_POST" EntitySet="IMAGEN_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POST__CATEGORIA__29572725" Association="Self.FK__POST__CATEGORIA__29572725">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="POST" EntitySet="POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POST__SUBCATEGOR__2A4B4B5E" Association="Self.FK__POST__SUBCATEGOR__2A4B4B5E">
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+            <End Role="POST" EntitySet="POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SUB_CATEG__ID_CA__267ABA7A" Association="Self.FK__SUB_CATEG__ID_CA__267ABA7A">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VINCULO_P__ID_PO__2D27B809" Association="Self.FK__VINCULO_P__ID_PO__2D27B809">
+            <End Role="POST" EntitySet="POST" />
+            <End Role="VINCULO_POST" EntitySet="VINCULO_POST" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BLOG_SEMINARIOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CATEGORIAS">
+          <Key>
+            <PropertyRef Name="ID_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_CATEGORIA" Type="String" MaxLength="125" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="POST" Relationship="Self.FK__POST__CATEGORIA__29572725" FromRole="CATEGORIAS" ToRole="POST" />
+          <NavigationProperty Name="SUB_CATEGORIA" Relationship="Self.FK__SUB_CATEG__ID_CA__267ABA7A" FromRole="CATEGORIAS" ToRole="SUB_CATEGORIA" />
+        </EntityType>
+        <EntityType Name="POST">
+          <Key>
+            <PropertyRef Name="ID_POST" />
+          </Key>
+          <Property Name="ID_POST" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TITULO" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOTA_POST" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_POST" Type="Boolean" />
+          <Property Name="CATEGORIA" Type="Int32" />
+          <Property Name="SUBCATEGORIA" Type="Int32" />
+          <NavigationProperty Name="CATEGORIAS" Relationship="Self.FK__POST__CATEGORIA__29572725" FromRole="POST" ToRole="CATEGORIAS" />
+          <NavigationProperty Name="IMAGEN_POST" Relationship="Self.FK__IMAGEN_PO__ID_PO__2F10007B" FromRole="POST" ToRole="IMAGEN_POST" />
+          <NavigationProperty Name="SUB_CATEGORIA" Relationship="Self.FK__POST__SUBCATEGOR__2A4B4B5E" FromRole="POST" ToRole="SUB_CATEGORIA" />
+          <NavigationProperty Name="VINCULO_POST" Relationship="Self.FK__VINCULO_P__ID_PO__2D27B809" FromRole="POST" ToRole="VINCULO_POST" />
+        </EntityType>
+        <EntityType Name="SUB_CATEGORIA">
+          <Key>
+            <PropertyRef Name="ID_SUB_CATEGORIA" />
+          </Key>
+          <Property Name="ID_CATEGORIA" Type="Int32" />
+          <Property Name="ID_SUB_CATEGORIA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_CATEGORIA" Type="String" MaxLength="125" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CATEGORIAS" Relationship="Self.FK__SUB_CATEG__ID_CA__267ABA7A" FromRole="SUB_CATEGORIA" ToRole="CATEGORIAS" />
+          <NavigationProperty Name="POST" Relationship="Self.FK__POST__SUBCATEGOR__2A4B4B5E" FromRole="SUB_CATEGORIA" ToRole="POST" />
+        </EntityType>
+        <EntityType Name="VINCULO_POST">
+          <Key>
+            <PropertyRef Name="ID_VINCULO" />
+            <PropertyRef Name="ID_POST" />
+          </Key>
+          <Property Name="ID_VINCULO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_POST" Type="Int32" Nullable="false" />
+          <Property Name="ENLACE" Type="String" MaxLength="750" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION_BOTON_ENLACE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="POST" Relationship="Self.FK__VINCULO_P__ID_PO__2D27B809" FromRole="VINCULO_POST" ToRole="POST" />
+        </EntityType>
+        <EntityType Name="IMAGEN_POST">
+          <Key>
+            <PropertyRef Name="ID_IMAGEN" />
+            <PropertyRef Name="LINK_IMAGEN" />
+          </Key>
+          <Property Name="ID_IMAGEN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_POST" Type="Int32" />
+          <Property Name="LINK_IMAGEN" Type="String" MaxLength="350" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="POST" Relationship="Self.FK__IMAGEN_PO__ID_PO__2F10007B" FromRole="IMAGEN_POST" ToRole="POST" />
+        </EntityType>
+        <Association Name="FK__POST__CATEGORIA__29572725">
+          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="0..1" />
+          <End Role="POST" Type="Self.POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAS">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="POST">
+              <PropertyRef Name="CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SUB_CATEG__ID_CA__267ABA7A">
+          <End Role="CATEGORIAS" Type="Self.CATEGORIAS" Multiplicity="0..1" />
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIAS">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Principal>
+            <Dependent Role="SUB_CATEGORIA">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__IMAGEN_PO__ID_PO__2F10007B">
+          <End Role="POST" Type="Self.POST" Multiplicity="0..1" />
+          <End Role="IMAGEN_POST" Type="Self.IMAGEN_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POST">
+              <PropertyRef Name="ID_POST" />
+            </Principal>
+            <Dependent Role="IMAGEN_POST">
+              <PropertyRef Name="ID_POST" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__POST__SUBCATEGOR__2A4B4B5E">
+          <End Role="SUB_CATEGORIA" Type="Self.SUB_CATEGORIA" Multiplicity="0..1" />
+          <End Role="POST" Type="Self.POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_CATEGORIA">
+              <PropertyRef Name="ID_SUB_CATEGORIA" />
+            </Principal>
+            <Dependent Role="POST">
+              <PropertyRef Name="SUBCATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VINCULO_P__ID_PO__2D27B809">
+          <End Role="POST" Type="Self.POST" Multiplicity="1" />
+          <End Role="VINCULO_POST" Type="Self.VINCULO_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="POST">
+              <PropertyRef Name="ID_POST" />
+            </Principal>
+            <Dependent Role="VINCULO_POST">
+              <PropertyRef Name="ID_POST" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BLOG_SEMINARIOEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CATEGORIAS" EntityType="Self.CATEGORIAS" />
+          <EntitySet Name="POST" EntityType="Self.POST" />
+          <EntitySet Name="SUB_CATEGORIA" EntityType="Self.SUB_CATEGORIA" />
+          <EntitySet Name="VINCULO_POST" EntityType="Self.VINCULO_POST" />
+          <EntitySet Name="IMAGEN_POST" EntityType="Self.IMAGEN_POST" />
+          <AssociationSet Name="FK__POST__CATEGORIA__29572725" Association="Self.FK__POST__CATEGORIA__29572725">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="POST" EntitySet="POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SUB_CATEG__ID_CA__267ABA7A" Association="Self.FK__SUB_CATEG__ID_CA__267ABA7A">
+            <End Role="CATEGORIAS" EntitySet="CATEGORIAS" />
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__IMAGEN_PO__ID_PO__2F10007B" Association="Self.FK__IMAGEN_PO__ID_PO__2F10007B">
+            <End Role="POST" EntitySet="POST" />
+            <End Role="IMAGEN_POST" EntitySet="IMAGEN_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__POST__SUBCATEGOR__2A4B4B5E" Association="Self.FK__POST__SUBCATEGOR__2A4B4B5E">
+            <End Role="SUB_CATEGORIA" EntitySet="SUB_CATEGORIA" />
+            <End Role="POST" EntitySet="POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VINCULO_P__ID_PO__2D27B809" Association="Self.FK__VINCULO_P__ID_PO__2D27B809">
+            <End Role="POST" EntitySet="POST" />
+            <End Role="VINCULO_POST" EntitySet="VINCULO_POST" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BLOG_SEMINARIOModelStoreContainer" CdmEntityContainer="BLOG_SEMINARIOEntities">
+          <EntitySetMapping Name="CATEGORIAS">
+            <EntityTypeMapping TypeName="BLOG_SEMINARIOModel.CATEGORIAS">
+              <MappingFragment StoreEntitySet="CATEGORIAS">
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+                <ScalarProperty Name="NOMBRE_CATEGORIA" ColumnName="NOMBRE_CATEGORIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="POST">
+            <EntityTypeMapping TypeName="BLOG_SEMINARIOModel.POST">
+              <MappingFragment StoreEntitySet="POST">
+                <ScalarProperty Name="ID_POST" ColumnName="ID_POST" />
+                <ScalarProperty Name="TITULO" ColumnName="TITULO" />
+                <ScalarProperty Name="NOTA_POST" ColumnName="NOTA_POST" />
+                <ScalarProperty Name="STATUS_POST" ColumnName="STATUS_POST" />
+                <ScalarProperty Name="CATEGORIA" ColumnName="CATEGORIA" />
+                <ScalarProperty Name="SUBCATEGORIA" ColumnName="SUBCATEGORIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUB_CATEGORIA">
+            <EntityTypeMapping TypeName="BLOG_SEMINARIOModel.SUB_CATEGORIA">
+              <MappingFragment StoreEntitySet="SUB_CATEGORIA">
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+                <ScalarProperty Name="ID_SUB_CATEGORIA" ColumnName="ID_SUB_CATEGORIA" />
+                <ScalarProperty Name="NOMBRE_CATEGORIA" ColumnName="NOMBRE_CATEGORIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VINCULO_POST">
+            <EntityTypeMapping TypeName="BLOG_SEMINARIOModel.VINCULO_POST">
+              <MappingFragment StoreEntitySet="VINCULO_POST">
+                <ScalarProperty Name="ID_VINCULO" ColumnName="ID_VINCULO" />
+                <ScalarProperty Name="ID_POST" ColumnName="ID_POST" />
+                <ScalarProperty Name="ENLACE" ColumnName="ENLACE" />
+                <ScalarProperty Name="DESCRIPCION_BOTON_ENLACE" ColumnName="DESCRIPCION_BOTON_ENLACE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IMAGEN_POST">
+            <EntityTypeMapping TypeName="BLOG_SEMINARIOModel.IMAGEN_POST">
+              <MappingFragment StoreEntitySet="IMAGEN_POST">
+                <ScalarProperty Name="ID_IMAGEN" ColumnName="ID_IMAGEN" />
+                <ScalarProperty Name="ID_POST" ColumnName="ID_POST" />
+                <ScalarProperty Name="LINK_IMAGEN" ColumnName="LINK_IMAGEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

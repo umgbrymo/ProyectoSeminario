@@ -1,0 +1,64 @@
+﻿@model Blog_Seminario.Models.POST
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>POST</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TITULO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TITULO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOTA_POST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOTA_POST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS_POST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS_POST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CATEGORIAS.NOMBRE_CATEGORIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CATEGORIAS.NOMBRE_CATEGORIA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Blog_Seminario.Models.POST>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TITULO)
+        </th>
+        @*
+        <th>
+            @Html.DisplayNameFor(model => model.NOTA_POST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STATUS_POST)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.CATEGORIAS.NOMBRE_CATEGORIA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TITULO)
+        </td>
+        @*
+        <td>
+            @Html.DisplayFor(modelItem => item.NOTA_POST)
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.STATUS_POST)
+        </td> *@
+        <td>
+            @Html.DisplayFor(modelItem => item.CATEGORIAS.NOMBRE_CATEGORIA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_POST }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_POST }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_POST })
+        </td>
+    </tr>
+}
+
+</table>

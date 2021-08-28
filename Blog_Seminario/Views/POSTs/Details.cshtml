@@ -1,0 +1,58 @@
+﻿@model Blog_Seminario.Models.POST
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>POST</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TITULO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TITULO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOTA_POST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOTA_POST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS_POST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS_POST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CATEGORIAS.NOMBRE_CATEGORIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CATEGORIAS.NOMBRE_CATEGORIA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUB_CATEGORIA.NOMBRE_CATEGORIA)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_POST }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
